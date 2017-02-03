@@ -1,6 +1,6 @@
 # Supreme-ATC-Bot
 
-Webscrapping app for www.supremenewyork.com to automatically find your product, add to cart, and checkout. 
+Webscrapping app for www.supremenewyork.com which automatically finds your product, adds to cart, and checksout. 
 
 
 # To run:
