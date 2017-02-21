@@ -1,1 +1,18 @@
 # Supreme-ATC-Bot
+
+Webscrapping app for www.supremenewyork.com which automatically finds your product, adds to cart, and checksout. 
+
+
+# To run:
+1. Fill out your personal information in info.cfg
+
+2. Fill out keyword and desired size/color 
+
+3. Run python3 ex.py in terminal 
+
+
+# TODO: 
+
+1. Make more user-friendly 
+
+2. Run more efficiently 
