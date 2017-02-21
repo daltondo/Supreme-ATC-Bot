@@ -370,3 +370,7 @@
 1482401042647	addons.manager	DEBUG	Calling shutdown blocker for PreviousExperimentProvider
 1482401042650	addons.xpi	DEBUG	Notifying XPI shutdown observers
 1482401042655	addons.manager	DEBUG	Async provider shutdown done
+1487707760477	geckodriver	INFO	Listening on 127.0.0.1:52142
+1487707769781	geckodriver	INFO	Listening on 127.0.0.1:52145
+1487707903875	geckodriver	INFO	Listening on 127.0.0.1:52159
+1487707997635	geckodriver	INFO	Listening on 127.0.0.1:52225

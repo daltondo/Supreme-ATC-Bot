@@ -1,12 +1,10 @@
 import time, sys, requests, hashlib, configparser
 from bs4 import BeautifulSoup 
 from splinter import Browser 
-import dryscrape
+from selenium import webdriver
 
-# from selenium import webdriver 
-# from itertools import count 
 
-t0 = time.time()
+# t0 = time.time()
 """ Aquire info from info.cfg """
 config = configparser.ConfigParser()
 config.read('info.cfg')
@@ -42,48 +40,48 @@ browser = Browser('chrome')
 """ End info aquisition """
 
 
+
+
 r = requests.get(mainUrl + category).text
 
 # checks if product has been uploaded to site 
 def main(): 
 	if product_name in r:
-		t1 = time.time()
-		print(t1 - t0)
-		parse(r, t1)
-# 2.3 - 2.8s: fine, can be disregarded
+		checkPage(r, t1)
 
-def parse(r, t1): 
+
+# checks if the current site page contains the item you wish to purchase
+def checkPage(r, t1): 
 	soup = BeautifulSoup(r, 'html.parser')
 	product, color, link, checker = '', '', '', False  
 
-	for div in soup.find_all('div', 'turbolink_scroller'):
-		for a in div.find_all('a', href=True, text=True): 
-			if product_name in a.text:
-				product = a.text
-				checker = a['href']
-			if a['href'] == checker and product_color in a.text:
-				color = a.text 
-				link = a['href']
+	while True:
+		for div in soup.find_all('div', 'turbolink_scroller'):
+			for a in div.find_all('a', href=True, text=True): 
+				if product_name in a.text:
+					product = a.text
+					checker = a['href']
+				if a['href'] == checker and product_color in a.text:
+					color = a.text 
+					link = a['href']
 
-	t2 = time.time()
-	print(t2 - t1)
-	check_product(product, color, link, t2)
-# 0.009 - 0.02s
+					if (product != '') and (color != '') and (link != ''): 
+						check_product(product, color, link, t2)
 
+
+# verifies with the user that this is the item you are purchasing
 def check_product(product, color, link, t2): 
-	if product_name in product and product_color in color: 
-		product_url = baseUrl + link 
-		print('WHAT YOU\'RE PURCHASING: \n' + 
-			  'NAME: ' + product + '\n' + 
-			  'COLOR: ' + color + '\n' + 
-			  'LINK: ' + product_url)
-
-	t3 = time.time() 
-	print(t3 - t2)
-	buy_product(product_url, t3)
-# 3.8E-5 - 4.88E-5s
+	while True: 
+		if product_name in product and product_color in color: 
+			product_url = baseUrl + link 
+			print('WHAT YOU\'RE PURCHASING: \n' + 
+				  'NAME: ' + product + '\n' + 
+				  'COLOR: ' + color + '\n' + 
+				  'LINK: ' + product_url)
+			buy_product(product_url, t3)
 
 
+# completes check out for the product
 def buy_product(url, t3): 
 	browser.visit(url)
 	try: 
@@ -127,21 +125,14 @@ def buy_product(url, t3):
 	except: 
 		browser.fill('credit_card[ovv]', cvv)
 
-	# browser.find_by_name('commit').click()
-	t4 = time.time()
-
-	print(t4 - t3)
-	# 3.76 - 6.70s
-	print(t4 - t0)
-	# 6.12 - 9.41s
+	browser.find_by_name('commit').click()
 	quit()
 
 
-i = 1.0
+start_time = time.time()
 while True: 
 	main()
-	print('Seconds: ' + str(i))
-	i = i + 0.5
+	print('Seconds: ' + str(time.time() - start_time))
 	time.sleep(0.5)
 
 # browser.visit(checkoutUrl)
