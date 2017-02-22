@@ -10,7 +10,9 @@ Webscrapping app for www.supremenewyork.com which automatically finds your produ
 
 3. Navigate to the program file in terminal
 
-3. Run python3 bot.py in terminal 
+3. Run python3 bot.py on command line
+
+4. To quit: press ctrl + c on command line for OSX
 
 # Necessary Libraries: 
 Runs on Python 3.5
